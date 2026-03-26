@@ -9,7 +9,7 @@ import {
 import { fetchStationsByLocation } from "../gasbuddy.ts";
 import { latLngToCell } from "../geo.ts";
 
-const NEARBY_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const NEARBY_TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
 const MAX_BBOX_AREA = 0.5;
 
 export async function handleNearby(req: Request): Promise<Response> {
@@ -77,11 +77,8 @@ export async function handleBbox(req: Request): Promise<Response> {
 	}
 
 	const area = (maxLat - minLat) * (maxLng - minLng);
-	if (area <= 0 || area > MAX_BBOX_AREA) {
-		return err(
-			"Bbox area must be positive and ≤ 0.5 deg²",
-			400,
-		);
+	if (area <= 0) {
+		return err("Invalid bbox", 400);
 	}
 
 	const stations = queryStationsInBbox(minLat, minLng, maxLat, maxLng);

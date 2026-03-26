@@ -94,7 +94,7 @@ let lastFetchTime = 0;
 
 async function throttle(): Promise<void> {
 	const elapsed = Date.now() - lastFetchTime;
-	if (elapsed < 500) await Bun.sleep(500 - elapsed);
+	if (elapsed < 2000) await Bun.sleep(2000 - elapsed);
 	lastFetchTime = Date.now();
 }
 
