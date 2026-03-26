@@ -5,6 +5,12 @@ struct Price: Codable, Identifiable {
     let nickname: String
     let formattedPrice: String?
     let postedTime: String?
+
+    // "$3.29" → 3.29
+    var numericPrice: Double? {
+        guard let fp = formattedPrice, fp.hasPrefix("$") else { return nil }
+        return Double(fp.dropFirst())
+    }
 }
 
 struct Station: Codable, Identifiable {

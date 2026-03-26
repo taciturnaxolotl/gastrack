@@ -3,31 +3,27 @@ import MapKit
 
 struct MapStationsView: View {
     @EnvironmentObject private var api: APIClient
-    @EnvironmentObject private var store: StationStore
+    @EnvironmentObject private var eia: EIAService
     @StateObject private var location = LocationManager.shared
 
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var visibleRegion: MKCoordinateRegion?
+    @State private var stations: [Station] = []
     @State private var selectedStation: Station?
     @State private var isLoading = false
     @State private var error: String?
     @State private var lastAutoLoad: Date = .distantPast
 
-    private var visibleStations: [Station] {
-        guard let region = visibleRegion else { return [] }
-        return store.stations(in: region)
-    }
-
     var body: some View {
         NavigationStack {
             Map(position: $position, selection: $selectedStation) {
-                ForEach(visibleStations) { station in
+                ForEach(displayedStations) { station in
                     if let price = station.regularPrice?.formattedPrice {
                         Marker(price, systemImage: "fuelpump.fill", coordinate: CLLocationCoordinate2D(
                             latitude: station.lat,
                             longitude: station.lng
                         ))
-                        .tint(station.isStale ? .orange : .green)
+                        .tint(markerTint(for: station))
                         .tag(station)
                     } else {
                         Marker(station.name, systemImage: "fuelpump", coordinate: CLLocationCoordinate2D(
@@ -88,13 +84,55 @@ struct MapStationsView: View {
         }
         .onAppear {
             location.startUpdating()
+            if let region = visibleRegion {
+                let fromStore = StationStore.shared.stations(in: region)
+                if !fromStore.isEmpty { stations = fromStore }
+            }
         }
     }
 
+    // Thin markers when zoomed out: one best-price station per grid cell.
+    private var displayedStations: [Station] {
+        guard let region = visibleRegion else { return stations }
+        let span = max(region.span.latitudeDelta, region.span.longitudeDelta)
+        guard span > 0.05 else { return stations }
+
+        let cellSize = span / 6.0
+        var best: [String: Station] = [:]
+        for station in stations {
+            let col = Int(floor((station.lng - (region.center.longitude - region.span.longitudeDelta / 2)) / cellSize))
+            let row = Int(floor((station.lat - (region.center.latitude - region.span.latitudeDelta / 2)) / cellSize))
+            let key = "\(row):\(col)"
+            if let existing = best[key] {
+                let ep = existing.regularPrice?.numericPrice
+                let np = station.regularPrice?.numericPrice
+                if let n = np, ep == nil || n < ep! { best[key] = station }
+            } else {
+                best[key] = station
+            }
+        }
+        return Array(best.values)
+    }
+
+    private func markerTint(for station: Station) -> Color {
+        if station.isStale { return .gray }
+        if let dev = eia.deviation(for: station) {
+            if dev < -0.05 { return .green }
+            if dev > 0.05 { return .red }
+            return .yellow
+        }
+        return .green
+    }
+
     private func autoLoad() async {
+        // Always show whatever the store already has — no network, no cooldown.
+        if let region = visibleRegion {
+            let fromStore = StationStore.shared.stations(in: region)
+            if !fromStore.isEmpty { stations = fromStore }
+        }
+
         guard Date().timeIntervalSince(lastAutoLoad) > 60 else { return }
         lastAutoLoad = Date()
-        // Show cache instantly, then fetch live in background.
         await loadVisible(live: false)
         Task { await loadVisible(live: true) }
     }
@@ -108,23 +146,27 @@ struct MapStationsView: View {
 
         let latSpan = region.span.latitudeDelta
         let lngSpan = region.span.longitudeDelta
-        guard latSpan * lngSpan <= 0.5 else {
-            error = "Zoom in to load stations"
+        // Only enforce area cap for live fetches (cache reads are free).
+        if live && latSpan * lngSpan > 0.5 {
+            error = "Zoom in to refresh stations"
             return
         }
         error = nil
 
+        let store = StationStore.shared
         if live {
             guard !isLoading else { return }
             isLoading = true
             do {
                 try await store.loadNearby(region.center, radiusKm: max(latSpan, lngSpan) * 111 / 2, api: api)
+                stations = store.stations(in: region)
             } catch {
                 self.error = error.localizedDescription
             }
             isLoading = false
         } else {
             await store.loadBbox(region, api: api)
+            stations = store.stations(in: region)
         }
     }
 }
