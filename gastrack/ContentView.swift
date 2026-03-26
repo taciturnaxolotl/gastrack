@@ -16,6 +16,9 @@ struct ContentView: View {
             MapStationsView()
                 .tabItem { Label("Map", systemImage: "map") }
 
+            PrefetchView()
+                .tabItem { Label("Route", systemImage: "road.lanes") }
+
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gear") }
         }

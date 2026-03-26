@@ -91,27 +91,28 @@ struct MapStationsView: View {
         }
     }
 
-    // Thin markers when zoomed out: one best-price station per grid cell.
+    // Only thin when markers would actually crowd. Greedy by price so the
+    // same stations are kept regardless of viewport position.
     private var displayedStations: [Station] {
-        guard let region = visibleRegion else { return stations }
-        let span = max(region.span.latitudeDelta, region.span.longitudeDelta)
-        guard span > 0.05 else { return stations }
+        guard stations.count > 15, let region = visibleRegion else { return stations }
 
-        let cellSize = span / 6.0
-        var best: [String: Station] = [:]
-        for station in stations {
-            let col = Int(floor((station.lng - (region.center.longitude - region.span.longitudeDelta / 2)) / cellSize))
-            let row = Int(floor((station.lat - (region.center.latitude - region.span.latitudeDelta / 2)) / cellSize))
-            let key = "\(row):\(col)"
-            if let existing = best[key] {
-                let ep = existing.regularPrice?.numericPrice
-                let np = station.regularPrice?.numericPrice
-                if let n = np, ep == nil || n < ep! { best[key] = station }
-            } else {
-                best[key] = station
-            }
+        // Minimum separation scales with zoom — roughly one marker-width apart.
+        let minSep = min(region.span.latitudeDelta, region.span.longitudeDelta) / 8.0
+
+        // Cheapest first; stations with no price go last.
+        let sorted = stations.sorted {
+            ($0.regularPrice?.numericPrice ?? .infinity) <
+            ($1.regularPrice?.numericPrice ?? .infinity)
         }
-        return Array(best.values)
+
+        var kept: [Station] = []
+        for station in sorted {
+            let crowded = kept.contains {
+                abs(station.lat - $0.lat) < minSep && abs(station.lng - $0.lng) < minSep
+            }
+            if !crowded { kept.append(station) }
+        }
+        return kept
     }
 
     private func markerTint(for station: Station) -> Color {

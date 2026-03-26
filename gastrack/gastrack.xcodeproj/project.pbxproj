@@ -22,6 +22,7 @@
 		0B5E3B5C2F75B3E9005F7F70 /* EIAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B5B2F75B3E9005F7F70 /* EIAService.swift */; };
 		0B5E3B5E2F75C0B6005F7F70 /* gas.icon in Resources */ = {isa = PBXBuildFile; fileRef = 0B5E3B5D2F75C0B6005F7F70 /* gas.icon */; };
 		0B5E3B602F75C0F1005F7F70 /* StationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B5F2F75C0F1005F7F70 /* StationStore.swift */; };
+		0B5E3B622F75C40F005F7F70 /* PrefetchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		0B5E3B5B2F75B3E9005F7F70 /* EIAService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAService.swift; sourceTree = "<group>"; };
 		0B5E3B5D2F75C0B6005F7F70 /* gas.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = gas.icon; sourceTree = "<group>"; };
 		0B5E3B5F2F75C0F1005F7F70 /* StationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStore.swift; sourceTree = "<group>"; };
+		0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefetchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 		0B5E3B4F2F75B002005F7F70 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */,
 				0B5E3B4A2F75B002005F7F70 /* MapStationsView.swift */,
 				0B5E3B4B2F75B002005F7F70 /* NearbyView.swift */,
 				0B5E3B4C2F75B002005F7F70 /* SettingsView.swift */,
@@ -182,6 +185,7 @@
 				0B5E3B542F75B002005F7F70 /* StationDetailView.swift in Sources */,
 				0B5E3B552F75B002005F7F70 /* Station.swift in Sources */,
 				0B5E3B562F75B002005F7F70 /* NearbyView.swift in Sources */,
+				0B5E3B622F75C40F005F7F70 /* PrefetchView.swift in Sources */,
 				0B5E3B572F75B002005F7F70 /* MapStationsView.swift in Sources */,
 				0B5E3B582F75B002005F7F70 /* KeychainService.swift in Sources */,
 				0B5E3B392F75ACD9005F7F70 /* gastrackApp.swift in Sources */,

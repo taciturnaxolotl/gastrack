@@ -9,7 +9,7 @@ import {
 } from "../geo.ts";
 
 const PREFETCH_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
-const MAX_POINTS = 500;
+const MAX_POINTS = 1000;
 const MAX_DISTANCE_KM = 200;
 const MAX_SAMPLES = 25;
 const DEFAULT_INTERVAL_KM = 8;

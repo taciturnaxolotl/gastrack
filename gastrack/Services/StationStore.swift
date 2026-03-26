@@ -9,7 +9,9 @@ final class StationStore: ObservableObject {
     @Published private(set) var byId: [String: Station] = [:]
 
     func merge(_ stations: [Station]) {
-        for s in stations { byId[s.id] = s }
+        for s in stations where s.prices.contains(where: { $0.formattedPrice != nil }) {
+            byId[s.id] = s
+        }
     }
 
     // Filtered + sorted by distance from a coordinate.
