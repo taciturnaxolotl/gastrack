@@ -1,0 +1,34 @@
+{
+  "fill" : "system-dark",
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "emoji_u26fd.svg",
+          "name" : "emoji_u26fd",
+          "position" : {
+            "scale" : 6,
+            "translation-in-points" : [
+              -0.8993379128923493,
+              1.751700357341747
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
