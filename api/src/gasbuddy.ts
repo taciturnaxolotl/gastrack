@@ -171,18 +171,20 @@ async function graphqlPost(
 
 function mapResults(loc: GraphQLResponse["data"]["locationBySearchTerm"]): Station[] {
 	const now = Date.now();
-	return loc.stations.results.map((r) => ({
-		id: r.id,
-		name: r.name,
-		lat: r.latitude ?? loc.latitude,
-		lng: r.longitude ?? loc.longitude,
-		address: r.address.line1 || null,
-		city: r.address.locality || null,
-		state: r.address.region || null,
-		zip: r.address.postalCode.trim() || null,
-		prices: mapPrices(r.prices),
-		fetchedAt: now,
-	}));
+	return loc.stations.results
+		.map((r) => ({
+			id: r.id,
+			name: r.name,
+			lat: r.latitude ?? loc.latitude,
+			lng: r.longitude ?? loc.longitude,
+			address: r.address.line1 || null,
+			city: r.address.locality || null,
+			state: r.address.region || null,
+			zip: r.address.postalCode.trim() || null,
+			prices: mapPrices(r.prices),
+			fetchedAt: now,
+		}))
+		.filter((s) => s.prices.some((p) => p.formattedPrice !== null));
 }
 
 function mapPrices(entries: GasBuddyPriceEntry[]): Price[] {
