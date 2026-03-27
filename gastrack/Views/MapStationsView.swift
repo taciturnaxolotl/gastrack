@@ -148,7 +148,7 @@ struct MapStationsView: View {
     @State private var selectedStation: Station?
     @State private var isLoading = false
     @State private var error: String?
-    @State private var lastAutoLoad: Date = .distantPast
+    @State private var fetchedRegions: [MKCoordinateRegion] = []
     @State private var showNativeMap = false
     @State private var mapReady = false
 
@@ -162,7 +162,9 @@ struct MapStationsView: View {
                         selectedStation: $selectedStation,
                         onRegionChanged: { region in
                             visibleRegion = region
-                            mapReady = true
+                            if !mapReady {
+                                mapReady = true
+                            }
                             updateDisplayed()
                             Task { await autoLoad() }
                         }
@@ -260,10 +262,24 @@ struct MapStationsView: View {
                 Task { @MainActor in updateDisplayed() }
             }
         }
-        guard Date().timeIntervalSince(lastAutoLoad) > 60 else { return }
-        lastAutoLoad = Date()
+        guard needsLiveFetch() else { return }
         await loadVisible(live: false)
         Task { await loadVisible(live: true) }
+    }
+
+    /// Returns true if the visible region has no stations or any stale station,
+    /// or if we haven't fetched this area before.
+    private func needsLiveFetch() -> Bool {
+        guard let region = visibleRegion else { return true }
+        // New region we haven't fetched yet
+        let alreadyFetched = fetchedRegions.contains {
+            $0.contains(region.center)
+        }
+        if !alreadyFetched { return true }
+        // Stale or missing data in the visible area
+        let visible = StationStore.shared.stations(in: region)
+        if visible.isEmpty { return true }
+        return visible.contains { $0.isStale }
     }
 
     private func loadVisible(live: Bool) async {
@@ -285,22 +301,30 @@ struct MapStationsView: View {
             do {
                 let radiusKm = max(latSpan, lngSpan) * 111 / 2
                 let results = try await api.fetchNearby(lat: region.center.latitude, lng: region.center.longitude, radiusKm: radiusKm)
-                store.merge(results)
+                store.replace(results, near: region.center, radiusKm: radiusKm)
+                fetchedRegions.append(region)
                 stations = store.stations(in: region)
                 updateDisplayed()
             } catch { self.error = error.localizedDescription }
             isLoading = false
         } else {
-            let minLat = region.center.latitude - latSpan / 2
-            let maxLat = region.center.latitude + latSpan / 2
-            let minLng = region.center.longitude - lngSpan / 2
-            let maxLng = region.center.longitude + lngSpan / 2
+            let minLat = region.center.latitude - latSpan * 0.75
+            let maxLat = region.center.latitude + latSpan * 0.75
+            let minLng = region.center.longitude - lngSpan * 0.75
+            let maxLng = region.center.longitude + lngSpan * 0.75
             if let results = try? await api.fetchBbox(minLat: minLat, minLng: minLng, maxLat: maxLat, maxLng: maxLng) {
                 store.merge(results)
             }
             stations = store.stations(in: region)
             updateDisplayed()
         }
+    }
+}
+
+extension MKCoordinateRegion {
+    func contains(_ coordinate: CLLocationCoordinate2D) -> Bool {
+        abs(coordinate.latitude  - center.latitude)  <= span.latitudeDelta  / 2 &&
+        abs(coordinate.longitude - center.longitude) <= span.longitudeDelta / 2
     }
 }
 

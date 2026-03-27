@@ -85,6 +85,25 @@ final class StationStore: ObservableObject {
         for s in stations { byId[s.id] = s }
     }
 
+    /// Upserts incoming stations and removes any previously cached stations
+    /// in the same area that the server no longer returns.
+    func replace(_ incoming: [Station], near center: CLLocationCoordinate2D, radiusKm: Double) {
+        let incomingIds = Set(incoming.map { $0.id })
+        let latDelta = radiusKm / 111.0
+        let lngDelta = radiusKm / (111.0 * cos(center.latitude * .pi / 180))
+        let stale = byId.values.filter { s in
+            abs(s.lat - center.latitude) <= latDelta &&
+            abs(s.lng - center.longitude) <= lngDelta &&
+            !incomingIds.contains(s.id)
+        }
+        try? db.write { d in
+            for s in stale   { try Station.deleteOne(d, key: s.id) }
+            for s in incoming { try s.save(d) }
+        }
+        for s in stale   { byId.removeValue(forKey: s.id) }
+        for s in incoming { byId[s.id] = s }
+    }
+
     func clear() {
         try? db.write { try Station.deleteAll($0) }
         byId = [:]

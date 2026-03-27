@@ -9,7 +9,7 @@ import {
 import { fetchStationsByLocation } from "../gasbuddy.ts";
 import { latLngToCell } from "../geo.ts";
 
-const NEARBY_TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
+export const NEARBY_TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
 const MAX_BBOX_AREA = 0.5;
 
 export async function handleNearby(req: Request): Promise<Response> {
@@ -46,11 +46,13 @@ export async function handleNearby(req: Request): Promise<Response> {
 		try {
 			const stations = await fetchStationsByLocation(lat, lng);
 			upsertStations(stations);
-			markCellFetched(cellKey);
 		} catch (e) {
 			console.error("GasBuddy fetch failed:", e);
 			// Fall through to stale cache rather than error
 		}
+		// Always mark the cell fetched — even on failure — so we back off
+		// rather than hammering GasBuddy on every request.
+		markCellFetched(cellKey);
 	}
 
 	const stations = queryStationsNear(lat, lng, radiusKm);

@@ -39,9 +39,14 @@ struct PrefetchView: View {
 
     enum ActiveField { case from, to }
 
+    @AppStorage("route_from_text") private var fromText: String = ""
+    @AppStorage("route_to_text") private var toText: String = ""
+    @AppStorage("route_to_lat") private var toLatSaved: Double = 0
+    @AppStorage("route_to_lng") private var toLngSaved: Double = 0
+    @AppStorage("route_from_lat") private var fromLatSaved: Double = 0
+    @AppStorage("route_from_lng") private var fromLngSaved: Double = 0
+
     @FocusState private var focused: ActiveField?
-    @State private var fromText = ""
-    @State private var toText = ""
     @State private var fromItem: MKMapItem?   // nil = current location
     @State private var toItem: MKMapItem?
     @State private var route: MKRoute?
@@ -147,6 +152,20 @@ struct PrefetchView: View {
             .navigationTitle("Prefetch Route")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .task { await restoreRoute() }
+    }
+
+    private func restoreRoute() async {
+        guard route == nil else { return }
+        if toLatSaved != 0 && toLngSaved != 0 {
+            let toCoord = CLLocationCoordinate2D(latitude: toLatSaved, longitude: toLngSaved)
+            toItem = MKMapItem(placemark: MKPlacemark(coordinate: toCoord))
+        }
+        if fromLatSaved != 0 && fromLngSaved != 0 {
+            let fromCoord = CLLocationCoordinate2D(latitude: fromLatSaved, longitude: fromLngSaved)
+            fromItem = MKMapItem(placemark: MKPlacemark(coordinate: fromCoord))
+        }
+        if toItem != nil { await fetchRoute() }
     }
 
     // MARK: - Row
@@ -205,12 +224,17 @@ struct PrefetchView: View {
         Task {
             let req = MKLocalSearch.Request(completion: completion)
             guard let item = try? await MKLocalSearch(request: req).start().mapItems.first else { return }
+            let coord = item.placemark.coordinate
             if field == .from {
                 fromText = completion.title
                 fromItem = item
+                fromLatSaved = coord.latitude
+                fromLngSaved = coord.longitude
             } else {
                 toText = completion.title
                 toItem = item
+                toLatSaved = coord.latitude
+                toLngSaved = coord.longitude
             }
             await fetchRoute()
         }
@@ -256,6 +280,10 @@ struct PrefetchView: View {
             let response = try await api.prefetchRoute(points: points)
             store.merge(response.stations)
             prefetchResult = (stations: response.count, samples: response.samples)
+            if let json = String(data: (try? JSONEncoder().encode(points)) ?? Data(), encoding: .utf8) {
+                UserDefaults.standard.set(json, forKey: "route_points")
+            }
+            BackgroundRefreshService.markRouteRefreshed()
         } catch {
             errorMsg = error.localizedDescription
         }

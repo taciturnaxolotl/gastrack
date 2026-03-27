@@ -41,6 +41,7 @@ struct gastrackApp: App {
     @StateObject private var api = APIClient.shared
     @StateObject private var eia = EIAService.shared
     @StateObject private var store = StationStore.shared
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
@@ -49,6 +50,11 @@ struct gastrackApp: App {
                 .environmentObject(eia)
                 .environmentObject(store)
                 .task { await eia.load(api: api) }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                Task { await BackgroundRefreshService.refreshIfNeeded() }
+            }
         }
     }
 }

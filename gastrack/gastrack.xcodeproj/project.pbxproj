@@ -24,6 +24,7 @@
 		0B5E3B602F75C0F1005F7F70 /* StationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B5F2F75C0F1005F7F70 /* StationStore.swift */; };
 		0B5E3B622F75C40F005F7F70 /* PrefetchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */; };
 		0B5E3B6A2F75F12D005F7F70 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 0B5E3B692F75F12D005F7F70 /* GRDB */; };
+		0B5E3B6C2F76D765005F7F70 /* BackgroundRefreshService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B6B2F76D765005F7F70 /* BackgroundRefreshService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		0B5E3B5D2F75C0B6005F7F70 /* gas.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = gas.icon; sourceTree = "<group>"; };
 		0B5E3B5F2F75C0F1005F7F70 /* StationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStore.swift; sourceTree = "<group>"; };
 		0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefetchView.swift; sourceTree = "<group>"; };
+		0B5E3B6B2F76D765005F7F70 /* BackgroundRefreshService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRefreshService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 		0B5E3B492F75B002005F7F70 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0B5E3B6B2F76D765005F7F70 /* BackgroundRefreshService.swift */,
 				0B5E3B5F2F75C0F1005F7F70 /* StationStore.swift */,
 				0B5E3B5B2F75B3E9005F7F70 /* EIAService.swift */,
 				0B5E3B462F75B002005F7F70 /* APIClient.swift */,
@@ -196,6 +199,7 @@
 				0B5E3B582F75B002005F7F70 /* KeychainService.swift in Sources */,
 				0B5E3B392F75ACD9005F7F70 /* gastrackApp.swift in Sources */,
 				0B5E3B602F75C0F1005F7F70 /* StationStore.swift in Sources */,
+				0B5E3B6C2F76D765005F7F70 /* BackgroundRefreshService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

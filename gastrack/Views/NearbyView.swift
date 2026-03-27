@@ -116,7 +116,7 @@ struct NearbyView: View {
         error = nil
         do {
             let results = try await api.fetchNearby(lat: coord.latitude, lng: coord.longitude, radiusKm: radiusKm)
-            store.merge(results)
+            store.replace(results, near: coord, radiusKm: radiusKm)
             recompute()
         } catch {
             self.error = error.localizedDescription

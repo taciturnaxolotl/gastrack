@@ -30,6 +30,8 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
 
     nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let loc = locations.last else { return }
+        UserDefaults.standard.set(loc.coordinate.latitude,  forKey: "last_lat")
+        UserDefaults.standard.set(loc.coordinate.longitude, forKey: "last_lng")
         Task { @MainActor in self.location = loc }
     }
 

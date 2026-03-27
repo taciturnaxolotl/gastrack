@@ -176,6 +176,20 @@ export function isCellFresh(cellKey: string, ttlMs: number): boolean {
 	return Date.now() - row.fetched_at < ttlMs;
 }
 
+/// Returns cell keys that are stale (past ttlMs) but were used recently (within maxAgeMs).
+export function getStaleCells(ttlMs: number, maxAgeMs: number): string[] {
+	const db = getDb();
+	const now = Date.now();
+	const rows = db
+		.query<{ cell_key: string }, [number, number]>(
+			`SELECT cell_key FROM prefetch_cells
+       WHERE fetched_at < ? AND fetched_at > ?
+       ORDER BY fetched_at ASC LIMIT 50`,
+		)
+		.all(now - ttlMs, now - maxAgeMs);
+	return rows.map((r) => r.cell_key);
+}
+
 export function markCellFetched(cellKey: string): void {
 	const db = getDb();
 	db.run(
