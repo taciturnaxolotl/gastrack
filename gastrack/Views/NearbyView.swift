@@ -1,32 +1,53 @@
 import SwiftUI
 import CoreLocation
 
+private enum SortMode: String, CaseIterable {
+    case closest   = "Closest"
+    case cheapest  = "Cheapest"
+    case balanced  = "Best Value"
+}
+
 struct NearbyView: View {
     @StateObject private var location = LocationManager.shared
     @EnvironmentObject private var api: APIClient
     @EnvironmentObject private var store: StationStore
 
-    @State private var isRefreshing = false
+    @AppStorage("balance_mpg") private var balanceMpg: Double = 28
+    @AppStorage("balance_tank") private var balanceTank: Double = 12
     @State private var error: String?
+    @State private var sortMode: SortMode = .closest
+    @State private var displayedStations: [Station] = []
 
     private let radiusKm = 16.0
 
-    private var stations: [Station] {
-        guard let coord = location.location?.coordinate else { return [] }
-        return store.stations(near: coord, radiusKm: radiusKm)
+    private func recompute() {
+        guard let loc = location.location else { return }
+        let nearby = store.stations(near: loc.coordinate, radiusKm: radiusKm)
+        switch sortMode {
+        case .closest:
+            displayedStations = nearby
+        case .cheapest:
+            displayedStations = nearby.sorted { lhs, rhs in
+                let a = lhs.regularPrice?.numericPrice ?? Double.infinity
+                let b = rhs.regularPrice?.numericPrice ?? Double.infinity
+                return a < b
+            }
+        case .balanced:
+            displayedStations = nearby.sorted { lhs, rhs in
+                balanceScore(lhs, from: loc) < balanceScore(rhs, from: loc)
+            }
+        }
     }
 
     var body: some View {
         NavigationStack {
             Group {
-                if stations.isEmpty && isRefreshing {
-                    ProgressView("Fetching stations…")
-                } else if let error, stations.isEmpty {
+                if let error, displayedStations.isEmpty {
                     ContentUnavailableView(error, systemImage: "antenna.radiowaves.left.and.right.slash")
-                } else if stations.isEmpty {
+                } else if displayedStations.isEmpty {
                     ContentUnavailableView("No stations found", systemImage: "fuelpump.slash")
                 } else {
-                    List(stations) { station in
+                    List(displayedStations) { station in
                         NavigationLink(destination: StationDetailView(station: station)) {
                             StationRow(station: station)
                         }
@@ -37,27 +58,39 @@ struct NearbyView: View {
             .navigationTitle("Nearby")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    if isRefreshing {
-                        ProgressView()
-                    } else {
-                        Button { Task { await loadLive() } } label: {
-                            Label("Refresh", systemImage: "arrow.clockwise")
+                    Menu {
+                        Picker("Sort", selection: $sortMode) {
+                            ForEach(SortMode.allCases, id: \.self) { mode in
+                                Text(mode.rawValue).tag(mode)
+                            }
                         }
+                    } label: {
+                        Label("Sort", systemImage: "line.3.horizontal.decrease")
                     }
                 }
             }
         }
         .task { await loadCached() }
         .onChange(of: location.location) { _, _ in
-            guard stations.isEmpty else { return }
-            Task { await loadCached() }
+            recompute()
+            if displayedStations.isEmpty { Task { await loadCached() } }
         }
+        .onChange(of: store.byId.count) { _, _ in recompute() }
+        .onChange(of: sortMode) { _, _ in recompute() }
         .onAppear {
             if location.authorizationStatus == .notDetermined {
                 location.requestPermission()
             }
             location.startUpdating()
         }
+    }
+
+    private func balanceScore(_ station: Station, from loc: CLLocation) -> Double {
+        let miles = loc.distance(from: CLLocation(latitude: station.lat, longitude: station.lng)) / 1609.34
+        guard let price = station.regularPrice?.numericPrice else { return .infinity }
+        // Effective price per gallon filled, accounting for round-trip fuel cost
+        let roundTripFuelCost = (2 * miles / balanceMpg) * price
+        return price + roundTripFuelCost / balanceTank
     }
 
     // Instant, works offline — merges into shared store.
@@ -73,6 +106,7 @@ struct NearbyView: View {
         error = nil
         if let results = try? await api.fetchNearby(lat: coord.latitude, lng: coord.longitude, radiusKm: radiusKm, cacheOnly: true) {
             store.merge(results)
+            recompute()
         }
     }
 
@@ -80,13 +114,12 @@ struct NearbyView: View {
     private func loadLive() async {
         guard let coord = location.location?.coordinate else { return }
         error = nil
-        isRefreshing = true
         do {
             let results = try await api.fetchNearby(lat: coord.latitude, lng: coord.longitude, radiusKm: radiusKm)
             store.merge(results)
+            recompute()
         } catch {
-            if stations.isEmpty { self.error = error.localizedDescription }
+            self.error = error.localizedDescription
         }
-        isRefreshing = false
     }
 }

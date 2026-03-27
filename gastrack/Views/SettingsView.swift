@@ -3,6 +3,8 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject private var api: APIClient
     @EnvironmentObject private var store: StationStore
+    @AppStorage("balance_mpg") private var balanceMpg: Double = 28
+    @AppStorage("balance_tank") private var balanceTank: Double = 12
     @State private var baseURL: String = ""
     @State private var deviceSecret: String = ""
     @State private var registrationStatus: String?
@@ -37,6 +39,19 @@ struct SettingsView: View {
                     .disabled(isLoadingHealth || baseURL.isEmpty)
                 } header: {
                     Text("Cache")
+                }
+
+                Section {
+                    Stepper(value: $balanceMpg, in: 10...60, step: 1) {
+                        LabeledContent("Fuel economy", value: "\(Int(balanceMpg)) mpg")
+                    }
+                    Stepper(value: $balanceTank, in: 5...40, step: 1) {
+                        LabeledContent("Tank size", value: "\(Int(balanceTank)) gal")
+                    }
+                } header: {
+                    Text("Best Value Sort")
+                } footer: {
+                    Text("Used to estimate the real cost of driving to a cheaper station.")
                 }
 
                 Section("Authentication") {
