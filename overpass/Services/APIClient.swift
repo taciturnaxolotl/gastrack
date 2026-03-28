@@ -20,7 +20,7 @@ final class APIClient: ObservableObject {
 
     // Base URL of the Overpass server
     var baseURL: String {
-        get { UserDefaults.standard.string(forKey: "sh.dunkirk.overpass.base_url") ?? "" }
+        get { UserDefaults.standard.string(forKey: "sh.dunkirk.overpass.base_url") ?? "https://overpass.dunkirk.sh" }
         set { UserDefaults.standard.set(newValue, forKey: "sh.dunkirk.overpass.base_url") }
     }
 
