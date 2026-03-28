@@ -80,7 +80,7 @@ struct SettingsView: View {
                 let days = storeManager.daysRemainingInTrial
                 LabeledContent("Free Trial") {
                     Text("\(days) day\(days == 1 ? "" : "s") remaining")
-                        .foregroundStyle(days <= 2 ? .orange : .secondary)
+                        .foregroundStyle(days <= 3 ? .orange : .secondary)
                 }
             }
 
@@ -154,6 +154,7 @@ struct SettingsView: View {
 private struct DeveloperSettingsSheet: View {
     let api: APIClient
 
+    @AppStorage("sh.dunkirk.overpass.onboarding_shown") private var onboardingShown = false
     @State private var baseURL: String = ""
     @State private var deviceSecret: String = ""
     @State private var registrationError: String?
@@ -200,6 +201,12 @@ private struct DeveloperSettingsSheet: View {
                                 .font(.caption)
                                 .foregroundStyle(.red)
                         }
+                    }
+                }
+
+                Section("Onboarding") {
+                    Button("Show Onboarding Again") {
+                        onboardingShown = false
                     }
                 }
             }

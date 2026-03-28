@@ -32,6 +32,8 @@
 		0B7A9C090000000000000000 /* RouteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7A9C080000000000000000 /* RouteEditorView.swift */; };
 		0BAA1C010000000000000000 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAA1C000000000000000000 /* StoreManager.swift */; };
 		0BAA1C030000000000000000 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAA1C020000000000000000 /* PaywallView.swift */; };
+		0BAA1C050000000000000000 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAA1C040000000000000000 /* OnboardingView.swift */; };
+		0BAA1C070000000000000000 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAA1C060000000000000000 /* ConfettiView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		0B7A9C080000000000000000 /* RouteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteEditorView.swift; sourceTree = "<group>"; };
 		0BAA1C000000000000000000 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		0BAA1C020000000000000000 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		0BAA1C040000000000000000 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		0BAA1C060000000000000000 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,8 @@
 				0B5E3B4D2F75B002005F7F70 /* StationDetailView.swift */,
 				0B5E3B4E2F75B002005F7F70 /* StationRow.swift */,
 				0BAA1C020000000000000000 /* PaywallView.swift */,
+				0BAA1C040000000000000000 /* OnboardingView.swift */,
+				0BAA1C060000000000000000 /* ConfettiView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -236,6 +242,8 @@
 				0B7A9C090000000000000000 /* RouteEditorView.swift in Sources */,
 				0BAA1C010000000000000000 /* StoreManager.swift in Sources */,
 				0BAA1C030000000000000000 /* PaywallView.swift in Sources */,
+				0BAA1C050000000000000000 /* OnboardingView.swift in Sources */,
+				0BAA1C070000000000000000 /* ConfettiView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

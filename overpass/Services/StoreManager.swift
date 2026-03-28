@@ -8,13 +8,15 @@ final class StoreManager {
     static let shared = StoreManager()
 
     private(set) var isUnlocked = false
+    private(set) var justPurchased = false
+    var isAppActive = false
     private(set) var purchaseDate: Date?
     private(set) var product: Product?
     private(set) var isPurchasing = false
 
     private let productId = "sh.dunkirk.overpass.unlock"
     private let firstLaunchKeychainKey = "sh.dunkirk.overpass.first_launch"
-    static let trialDuration: TimeInterval = 7 * 24 * 60 * 60
+    static let trialDuration: TimeInterval = 15 * 24 * 60 * 60
 
     var trialStartDate: Date? {
         guard let stored = KeychainService.load(forKey: firstLaunchKeychainKey),
@@ -59,6 +61,10 @@ final class StoreManager {
                 } else {
                     isUnlocked = true
                     purchaseDate = tx.purchaseDate
+                    if isAppActive {
+                        justPurchased = true
+                        Task { try? await Task.sleep(for: .seconds(4)); justPurchased = false }
+                    }
                 }
                 await tx.finish()
             }
@@ -88,6 +94,8 @@ final class StoreManager {
         if case .success(let verification) = result,
            case .verified(_) = verification {
             isUnlocked = true
+            justPurchased = true
+            Task { try? await Task.sleep(for: .seconds(4)); justPurchased = false }
         }
     }
 

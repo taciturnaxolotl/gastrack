@@ -55,6 +55,8 @@ struct overpassApp: App {
     private let storeManager = StoreManager.shared
     @Environment(\.scenePhase) private var scenePhase
 
+    @AppStorage("sh.dunkirk.overpass.onboarding_shown") private var onboardingShown = false
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -67,13 +69,25 @@ struct overpassApp: App {
                     await storeManager.load()
                 }
                 .fullScreenCover(isPresented: .init(
-                    get: { !storeManager.hasAccess },
+                    get: { !onboardingShown },
+                    set: { _ in }
+                )) {
+                    OnboardingView()
+                }
+                .fullScreenCover(isPresented: .init(
+                    get: { onboardingShown && !storeManager.hasAccess },
                     set: { _ in }
                 )) {
                     PaywallView()
                 }
+                .overlay {
+                    if storeManager.justPurchased {
+                        ConfettiView()
+                    }
+                }
         }
         .onChange(of: scenePhase) { _, phase in
+            storeManager.isAppActive = phase == .active
             if phase == .active {
                 Task { await BackgroundRefreshService.refreshIfNeeded() }
             }
