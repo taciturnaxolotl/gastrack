@@ -44,6 +44,16 @@ struct NearbyView: View {
             Group {
                 if let error, displayedStations.isEmpty {
                     ContentUnavailableView(error, systemImage: "antenna.radiowaves.left.and.right.slash")
+                } else if displayedStations.isEmpty && location.location == nil && location.authorizationStatus != .denied {
+                    VStack(spacing: 16) {
+                        Image(systemName: "location.circle.fill")
+                            .font(.system(size: 56))
+                            .foregroundStyle(.secondary)
+                        Text("Finding your location…")
+                            .font(.title3)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if displayedStations.isEmpty {
                     ContentUnavailableView("No stations found", systemImage: "fuelpump.slash")
                 } else {
@@ -98,8 +108,6 @@ struct NearbyView: View {
         guard let coord = location.location?.coordinate else {
             if location.authorizationStatus == .denied {
                 error = "Location access denied"
-            } else {
-                error = "Waiting for location…"
             }
             return
         }
