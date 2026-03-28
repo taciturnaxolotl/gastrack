@@ -19,9 +19,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                serverSection
-                cacheSection
                 bestValueSection
+                cacheSection
                 authSection
                 versionSection
             }
@@ -55,15 +54,6 @@ struct SettingsView: View {
     }
 
     // MARK: - Sections
-
-    private var serverSection: some View {
-        Section("Server") {
-            TextField("Base URL", text: $baseURL, prompt: Text("https://overpass.dunkirk.sh"))
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-                .keyboardType(.URL)
-        }
-    }
 
     private var cacheSection: some View {
         Section {
@@ -131,6 +121,11 @@ struct SettingsView: View {
     @ViewBuilder
     private var authSection: some View {
         Section("Authentication") {
+            TextField("Server URL", text: $baseURL, prompt: Text("https://overpass.dunkirk.sh"))
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+
             if hasApiKey {
                 Label("API key registered", systemImage: "checkmark.seal.fill")
                     .foregroundStyle(.green)
@@ -163,6 +158,16 @@ struct SettingsView: View {
             let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"
             LabeledContent("Version", value: "\(version) (\(build))")
                 .foregroundStyle(.secondary)
+        } footer: {
+            HStack {
+                Spacer()
+                Text("Made with ♥ by ") +
+                Text("[Kieran Klukas](https://dunkirk.sh)")
+                Spacer()
+            }
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+            .padding(.top, 8)
         }
     }
 
