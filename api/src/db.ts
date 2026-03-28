@@ -37,7 +37,7 @@ let _db: Database | null = null;
 export function getDb(): Database {
 	if (_db) return _db;
 
-	_db = new Database(process.env.DB_PATH ?? "./gastrack.db");
+	_db = new Database(process.env.DB_PATH ?? "./overpass.db");
 	_db.exec("PRAGMA journal_mode = WAL");
 	_db.exec("PRAGMA foreign_keys = ON");
 	migrate(_db);

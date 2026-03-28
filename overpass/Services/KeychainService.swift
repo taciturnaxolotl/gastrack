@@ -2,7 +2,7 @@ import Foundation
 import Security
 
 enum KeychainService {
-    private static let service = "com.gastrack.app"
+    private static let service = "sh.dunkirk.overpass"
 
     static func save(_ value: String, forKey key: String) {
         let data = Data(value.utf8)

@@ -46,7 +46,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct gastrackApp: App {
+struct overpassApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var api = APIClient.shared
     @StateObject private var eia = EIAService.shared

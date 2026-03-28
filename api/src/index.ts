@@ -55,7 +55,7 @@ const server = serve({
 	},
 });
 
-console.log(`gastrack listening on ${server.hostname}:${server.port}`);
+console.log(`overpass listening on ${server.hostname}:${server.port}`);
 
 process.on("SIGINT", () => process.exit(0));
 process.on("SIGTERM", () => process.exit(0));

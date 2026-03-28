@@ -18,10 +18,10 @@ enum APIError: LocalizedError {
 final class APIClient: ObservableObject {
     static let shared = APIClient()
 
-    // Base URL of the gastrack server on Tailscale
+    // Base URL of the Overpass server
     var baseURL: String {
-        get { UserDefaults.standard.string(forKey: "gastrack_base_url") ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: "gastrack_base_url") }
+        get { UserDefaults.standard.string(forKey: "sh.dunkirk.overpass.base_url") ?? "" }
+        set { UserDefaults.standard.set(newValue, forKey: "sh.dunkirk.overpass.base_url") }
     }
 
     var userKey: String? {

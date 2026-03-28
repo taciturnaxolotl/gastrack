@@ -1,8 +1,8 @@
-# gastrack
+# Overpass
 
-gas tracking without the ads
+The best iOS gas tracking app!
 
-The canonical repo for this is hosted on tangled over at [`dunkirk.sh/gastrack`](https://tangled.org/dunkirk.sh/gastrack)
+The canonical repo for this is hosted on tangled over at [`dunkirk.sh/overpass`](https://tangled.org/dunkirk.sh/overpass)
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/main/.github/images/line-break.svg" />
@@ -13,5 +13,5 @@ The canonical repo for this is hosted on tangled over at [`dunkirk.sh/gastrack`]
 </p>
 
 <p align="center">
-    <a href="https://tangled.org/dunkirk.sh/gastrack/blob/main/LICENSE.md"><img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=O'Saasy&logoColor=d9e0ee&colorA=363a4f&colorB=b7bdf8"/></a>
+    <a href="https://tangled.org/dunkirk.sh/overpass/blob/main/LICENSE.md"><img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=O'Saasy&logoColor=d9e0ee&colorA=363a4f&colorB=b7bdf8"/></a>
 </p>

@@ -1,10 +1,10 @@
 {
-	"name": "gastrack-api",
+	"name": "overpass-api",
 	"version": "0.1.0",
 	"scripts": {
 		"dev": "bun run --watch src/index.ts",
 		"start": "bun run src/index.ts",
-		"build": "bun build --compile --outfile dist/gastrack --production ./src/index.ts"
+		"build": "bun build --compile --outfile dist/overpass --production ./src/index.ts"
 	},
 	"dependencies": {},
 	"devDependencies": {

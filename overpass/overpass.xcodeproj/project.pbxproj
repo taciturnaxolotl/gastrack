@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B5E3B392F75ACD9005F7F70 /* gastrackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B382F75ACD9005F7F70 /* gastrackApp.swift */; };
+		0B5E3B392F75ACD9005F7F70 /* overpassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B382F75ACD9005F7F70 /* overpassApp.swift */; };
 		0B5E3B3B2F75ACD9005F7F70 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B3A2F75ACD9005F7F70 /* ContentView.swift */; };
 		0B5E3B3D2F75ACDA005F7F70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B5E3B3C2F75ACDA005F7F70 /* Assets.xcassets */; };
 		0B5E3B502F75B002005F7F70 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B482F75B002005F7F70 /* LocationManager.swift */; };
@@ -28,10 +28,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B5E3B382F75ACD9005F7F70 /* gastrackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gastrackApp.swift; sourceTree = "<group>"; };
+		0B5E3B382F75ACD9005F7F70 /* overpassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = overpassApp.swift; sourceTree = "<group>"; };
 		0B5E3B3A2F75ACD9005F7F70 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0B5E3B3C2F75ACDA005F7F70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0B5E3B432F75ACFB005F7F70 /* gastrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gastrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B5E3B432F75ACFB005F7F70 /* overpass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = overpass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B5E3B442F75B002005F7F70 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		0B5E3B462F75B002005F7F70 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		0B5E3B472F75B002005F7F70 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
@@ -68,8 +68,8 @@
 				0B5E3B4F2F75B002005F7F70 /* Views */,
 				0B5E3B3C2F75ACDA005F7F70 /* Assets.xcassets */,
 				0B5E3B3A2F75ACD9005F7F70 /* ContentView.swift */,
-				0B5E3B382F75ACD9005F7F70 /* gastrackApp.swift */,
-				0B5E3B432F75ACFB005F7F70 /* gastrack.app */,
+				0B5E3B382F75ACD9005F7F70 /* overpassApp.swift */,
+				0B5E3B432F75ACFB005F7F70 /* overpass.app */,
 				0B5E3B5D2F75C0B6005F7F70 /* gas.icon */,
 			);
 			sourceTree = "<group>";
@@ -111,9 +111,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0B5E3B342F75ACD9005F7F70 /* gastrack */ = {
+		0B5E3B342F75ACD9005F7F70 /* overpass */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0B5E3B402F75ACDA005F7F70 /* Build configuration list for PBXNativeTarget "gastrack" */;
+			buildConfigurationList = 0B5E3B402F75ACDA005F7F70 /* Build configuration list for PBXNativeTarget "overpass" */;
 			buildPhases = (
 				0B5E3B312F75ACD9005F7F70 /* Sources */,
 				0B5E3B322F75ACD9005F7F70 /* Frameworks */,
@@ -123,12 +123,12 @@
 			);
 			dependencies = (
 			);
-			name = gastrack;
+			name = overpass;
 			packageProductDependencies = (
 				0B5E3B692F75F12D005F7F70 /* GRDB */,
 			);
-			productName = gastrack;
-			productReference = 0B5E3B432F75ACFB005F7F70 /* gastrack.app */;
+			productName = overpass;
+			productReference = 0B5E3B432F75ACFB005F7F70 /* overpass.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -146,7 +146,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0B5E3B302F75ACD9005F7F70 /* Build configuration list for PBXProject "gastrack" */;
+			buildConfigurationList = 0B5E3B302F75ACD9005F7F70 /* Build configuration list for PBXProject "overpass" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -163,7 +163,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0B5E3B342F75ACD9005F7F70 /* gastrack */,
+				0B5E3B342F75ACD9005F7F70 /* overpass */,
 			);
 		};
 /* End PBXProject section */
@@ -197,7 +197,7 @@
 				0B5E3B622F75C40F005F7F70 /* PrefetchView.swift in Sources */,
 				0B5E3B572F75B002005F7F70 /* MapStationsView.swift in Sources */,
 				0B5E3B582F75B002005F7F70 /* KeychainService.swift in Sources */,
-				0B5E3B392F75ACD9005F7F70 /* gastrackApp.swift in Sources */,
+				0B5E3B392F75ACD9005F7F70 /* overpassApp.swift in Sources */,
 				0B5E3B602F75C0F1005F7F70 /* StationStore.swift in Sources */,
 				0B5E3B6C2F76D765005F7F70 /* BackgroundRefreshService.swift in Sources */,
 			);
@@ -337,7 +337,7 @@
 				DEVELOPMENT_TEAM = M67B42LX8D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Gastrack;
+				INFOPLIST_KEY_CFBundleDisplayName = "Overpass: Gas Prices";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Used to find gas stations near you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -350,7 +350,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = sh.dunkirk.gastrack;
+				PRODUCT_BUNDLE_IDENTIFIER = sh.dunkirk.overpass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -372,7 +372,7 @@
 				DEVELOPMENT_TEAM = M67B42LX8D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Gastrack;
+				INFOPLIST_KEY_CFBundleDisplayName = "Overpass: Gas Prices";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Used to find gas stations near you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -385,7 +385,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = sh.dunkirk.gastrack;
+				PRODUCT_BUNDLE_IDENTIFIER = sh.dunkirk.overpass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -400,7 +400,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0B5E3B302F75ACD9005F7F70 /* Build configuration list for PBXProject "gastrack" */ = {
+		0B5E3B302F75ACD9005F7F70 /* Build configuration list for PBXProject "overpass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0B5E3B3E2F75ACDA005F7F70 /* Debug */,
@@ -409,7 +409,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0B5E3B402F75ACDA005F7F70 /* Build configuration list for PBXNativeTarget "gastrack" */ = {
+		0B5E3B402F75ACDA005F7F70 /* Build configuration list for PBXNativeTarget "overpass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0B5E3B412F75ACDA005F7F70 /* Debug */,
