@@ -25,6 +25,10 @@
 		0B5E3B622F75C40F005F7F70 /* PrefetchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */; };
 		0B5E3B6A2F75F12D005F7F70 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 0B5E3B692F75F12D005F7F70 /* GRDB */; };
 		0B5E3B6C2F76D765005F7F70 /* BackgroundRefreshService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E3B6B2F76D765005F7F70 /* BackgroundRefreshService.swift */; };
+		0B7A9C030000000000000000 /* RouteIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7A9C020000000000000000 /* RouteIntents.swift */; };
+		0B7A9C050000000000000000 /* SavedRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7A9C040000000000000000 /* SavedRoute.swift */; };
+		0B7A9C070000000000000000 /* RouteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7A9C060000000000000000 /* RouteStore.swift */; };
+		0B7A9C090000000000000000 /* RouteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7A9C080000000000000000 /* RouteEditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +50,10 @@
 		0B5E3B5F2F75C0F1005F7F70 /* StationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStore.swift; sourceTree = "<group>"; };
 		0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefetchView.swift; sourceTree = "<group>"; };
 		0B5E3B6B2F76D765005F7F70 /* BackgroundRefreshService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRefreshService.swift; sourceTree = "<group>"; };
+		0B7A9C020000000000000000 /* RouteIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteIntents.swift; sourceTree = "<group>"; };
+		0B7A9C040000000000000000 /* SavedRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRoute.swift; sourceTree = "<group>"; };
+		0B7A9C060000000000000000 /* RouteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteStore.swift; sourceTree = "<group>"; };
+		0B7A9C080000000000000000 /* RouteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +74,7 @@
 				0B5E3B452F75B002005F7F70 /* Models */,
 				0B5E3B492F75B002005F7F70 /* Services */,
 				0B5E3B4F2F75B002005F7F70 /* Views */,
+				0B7A9C010000000000000000 /* AppIntents */,
 				0B5E3B3C2F75ACDA005F7F70 /* Assets.xcassets */,
 				0B5E3B3A2F75ACD9005F7F70 /* ContentView.swift */,
 				0B5E3B382F75ACD9005F7F70 /* overpassApp.swift */,
@@ -74,10 +83,19 @@
 			);
 			sourceTree = "<group>";
 		};
+		0B7A9C010000000000000000 /* AppIntents */ = {
+			isa = PBXGroup;
+			children = (
+				0B7A9C020000000000000000 /* RouteIntents.swift */,
+			);
+			path = AppIntents;
+			sourceTree = "<group>";
+		};
 		0B5E3B452F75B002005F7F70 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				0B5E3B442F75B002005F7F70 /* Station.swift */,
+				0B7A9C040000000000000000 /* SavedRoute.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -91,6 +109,7 @@
 				0B5E3B462F75B002005F7F70 /* APIClient.swift */,
 				0B5E3B472F75B002005F7F70 /* KeychainService.swift */,
 				0B5E3B482F75B002005F7F70 /* LocationManager.swift */,
+				0B7A9C060000000000000000 /* RouteStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -99,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				0B5E3B612F75C40F005F7F70 /* PrefetchView.swift */,
+				0B7A9C080000000000000000 /* RouteEditorView.swift */,
 				0B5E3B4A2F75B002005F7F70 /* MapStationsView.swift */,
 				0B5E3B4B2F75B002005F7F70 /* NearbyView.swift */,
 				0B5E3B4C2F75B002005F7F70 /* SettingsView.swift */,
@@ -200,6 +220,10 @@
 				0B5E3B392F75ACD9005F7F70 /* overpassApp.swift in Sources */,
 				0B5E3B602F75C0F1005F7F70 /* StationStore.swift in Sources */,
 				0B5E3B6C2F76D765005F7F70 /* BackgroundRefreshService.swift in Sources */,
+				0B7A9C030000000000000000 /* RouteIntents.swift in Sources */,
+				0B7A9C050000000000000000 /* SavedRoute.swift in Sources */,
+				0B7A9C070000000000000000 /* RouteStore.swift in Sources */,
+				0B7A9C090000000000000000 /* RouteEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

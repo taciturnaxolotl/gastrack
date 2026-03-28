@@ -51,6 +51,7 @@ struct overpassApp: App {
     @StateObject private var api = APIClient.shared
     @StateObject private var eia = EIAService.shared
     @StateObject private var store = StationStore.shared
+    @StateObject private var routeStore = RouteStore.shared
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -59,6 +60,7 @@ struct overpassApp: App {
                 .environmentObject(api)
                 .environmentObject(eia)
                 .environmentObject(store)
+                .environmentObject(routeStore)
                 .task { await eia.load(api: api) }
         }
         .onChange(of: scenePhase) { _, phase in

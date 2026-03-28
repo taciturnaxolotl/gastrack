@@ -7,7 +7,7 @@ struct Price: Codable, Identifiable {
     let postedTime: String?
 
     // "$3.29" → 3.29
-    var numericPrice: Double? {
+    nonisolated var numericPrice: Double? {
         guard let fp = formattedPrice, fp.hasPrefix("$") else { return nil }
         return Double(fp.dropFirst())
     }
@@ -25,7 +25,7 @@ struct Station: Codable, Identifiable, Sendable {
     let prices: [Price]
     let fetchedAt: Int64
 
-    var regularPrice: Price? {
+    nonisolated var regularPrice: Price? {
         prices.first { $0.nickname == "Regular" }
     }
 
